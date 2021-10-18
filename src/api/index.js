@@ -11,4 +11,4 @@ import ajax from './ajax'
 } */
 
 //请求三级分类列表
-export const reqCategoryList = () => ajax.get('api/product/getBaseCategoryList')
+export const reqCategoryList = () => ajax.get('/product/getBaseCategoryList')

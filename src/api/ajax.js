@@ -12,7 +12,7 @@ import 'nprogress/nprogress.css'
 //以后整个项目都用这个实例发请求
 const ajax = axios.create({
     //请求的基本路径
-    baseURL: 'http://39.98.123.211',
+    baseURL: 'http://localhost:8080/api',
     //超时时间
     timeout: 5000
 });
