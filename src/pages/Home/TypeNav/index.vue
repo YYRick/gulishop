@@ -1693,9 +1693,14 @@
 </template>
 
 <script>
-export default {
-  name: "TypeNav",
-};
+  // import {reqCategoryList}  from '@/api'
+
+  export default {
+    name: "TypeNav",
+    mounted(){
+      this.$store.dispatch('home/getCategoryList')
+    }
+  };
 </script>
 
 <style lang="less" scoped>
