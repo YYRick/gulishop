@@ -6,7 +6,8 @@
       <!-- 此处要展示的是一堆路由组件，后期得看路径，得配路由 -->
       <router-view></router-view>
       <!-- 底部 -->
-      <Footer/>
+      <!-- 控制底部组件的显示与否 -->
+      <Footer v-show="!$route.meta.isHiddenFooter"/>
   </div>
 </template>
 

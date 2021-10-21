@@ -15,7 +15,8 @@ const actions = {
 }
 const mutations = {
   SAVE_CATEGORY_LIST(state, list){
-     state.categoryList = list
+     // list.slice(0, 15)：后台数据接口返回的一级数据多了一个，只要15个就够了
+     state.categoryList = list.slice(0, 15)
   }
 }
 const state = {

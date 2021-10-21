@@ -48,12 +48,22 @@ export default new VueRouter({
         {   
             name: 'login',
             path: '/login',
-            component:Login
+            component:Login,
+            //meta：路由记录
+            meta:{
+              //根据isShowFooter的值来判断底部组件是否展示
+              isHiddenFooter: true
+            }
         },
         {   
             name: 'register',
             path: '/register',
-            component:Register
+            component:Register,
+            //meta：路由记录
+            meta:{
+              //根据isHiddenFooter的值来判断底部组件是否展示
+              isHiddenFooter: true
+            }
         },
         {   
             name: 'search',
