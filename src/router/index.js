@@ -43,7 +43,10 @@ export default new VueRouter({
         {   
             name: 'home',
             path: '/home',
-            component:Home
+            component:Home,
+            meta:{
+              isRequiredNav: true //控制导航
+            }
         },
         {   
             name: 'login',

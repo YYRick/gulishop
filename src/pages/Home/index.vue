@@ -19,7 +19,6 @@
 </template>
 
 <script>
-  import TypeNav from './TypeNav'
   import ListContainer from './ListContainer'
   import Recommend from './Recommend'
   import Rank from './Rank'
@@ -30,7 +29,6 @@
   export default {
     name: 'Home',
     components:{
-      TypeNav,
       ListContainer,
       Recommend,
       Rank,

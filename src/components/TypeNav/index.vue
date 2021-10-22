@@ -2,7 +2,35 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <div class="nav-left" @mouseleave="handleMouseLeave">
+        <h2 class="all" @mouseenter="isShowNav = true">全部商品分类</h2>
+        <div class="sort" v-show="isShowNav">
+          <div class="all-sort-list2" @click="toSearch">
+            <div class="item bo" v-for="c1 in categoryList" :key="c1.categoryId">
+              <h3>
+                <!-- 一级导航链接 -->
+                <a data-level="1" :data-id="c1.categoryId" :data-name="c1.categoryName">{{c1.categoryName}}</a>
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <!-- 二级导航 -->
+                  <dl class="fore"  v-for="c2 in c1.categoryChild" :key="c2.categoryId">
+                    <dt>
+                      <a data-level="2" :data-id="c2.categoryId" :data-name="c2.categoryName">{{c2.categoryName}}</a>
+                    </dt>
+                    <dd>
+                      <!-- 三级导航 -->
+                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                        <a data-level="3" :data-id="c3.categoryId" :data-name="c3.categoryName">{{c3.categoryName}}</a>
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -13,32 +41,6 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item bo" v-for="c1 in categoryList" :key="c1.categoryId">
-            <!-- 一级导航 -->
-            <h3>
-              <a>{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem">
-                <!-- 二级导航 -->
-                <dl class="fore"  v-for="c2 in c1.categoryChild" :key="c2.categoryId">
-                  <dt>
-                    <a>{{c2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <!-- 三级导航 -->
-                    <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                      <a>{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -48,13 +50,48 @@
 
   export default {
     name: "TypeNav",
+    data(){
+       return{
+         isShowNav: false
+       }
+    },
     computed:{
        //映射vuex中state里的home分类下的categoryList(分类数据)
        ...mapState('home',['categoryList'])
     },
+    methods:{
+      toSearch(event){
+        //获取点击分类的信息
+        const {level, id, name} = event.target.dataset;
+        //如果点击的不是分类导航，终止逻辑
+        if(!level) return
+        const {query} = this.$route;
+        //跳转search路由，并携带参数信息
+        this.$router.push({
+           name: 'search',
+           query:{
+              //分类id
+              ['category'+ level + 'Id']: id,
+              //分类名
+              categoryName: name,
+              keyword: query.keyword
+           }
+        })
+      },
+      //响应鼠标移出导航区
+      handleMouseLeave(){
+        if(!this.$route.meta.isRequiredNav){
+           this.isShowNav = false
+        }
+      }
+    },
     mounted(){
       //组件一挂载，就dispatch一个action，用于获取分类数据
       this.$store.dispatch('home/getCategoryList')
+      //根据当前路径决定是否初始化显示导航下拉框
+      if(this.$route.meta.isRequiredNav){
+         this.isShowNav = true
+      }
     }
   };
 </script>
@@ -163,6 +200,11 @@
                     padding: 0 8px;
                     margin-top: 5px;
                     border-left: 1px solid #ccc;
+                    a{
+                      &:hover{
+                         cursor: pointer;
+                      }
+                    }
                   }
                 }
               }
@@ -173,7 +215,7 @@
             h3{
               background-color: rgb(135, 206, 235);
               a{
-                color: #fff;
+                color: #fff !important;
                 cursor: pointer;
               }
             }

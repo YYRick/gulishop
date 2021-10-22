@@ -1,5 +1,8 @@
 <template>
-  <h2>Register</h2>
+  <div>
+    <h2>Register</h2>
+    <TypeNav/>
+  </div>
 </template>
 
 <script>

@@ -37,6 +37,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model.trim = "keyword"
           />
           <button @click='toSearch' class="sui-btn btn-xlarge btn-danger" type="button">
             搜索
@@ -50,9 +51,19 @@
 <script>
 export default {
   name: "Header",
+  data(){
+    return {
+       keyword: ''
+    }
+  },
   methods:{
     toSearch(){
-      this.$router.push('/search')
+      this.$router.replace({
+        name: 'search',
+        query:{
+          keyword: this.keyword || undefined
+        }
+      })
     }
   }
 };
